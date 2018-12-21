@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" language="C++" url="extern">
+
+<unit>
+<extern>extern <literal type="string">"C"</literal> <block>{}</block></extern>
+</unit>
+
+<unit>
+<extern>extern <literal type="string">"C"</literal> <block>{<break>break;</break>}</block></extern>
+</unit>
+
+<unit>
+<decl_stmt><decl><specifier>extern</specifier> <type><name>int</name></type> <name>foo</name></decl>;</decl_stmt>
+</unit>
+
+</unit>

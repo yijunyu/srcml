@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" language="C++" url="empty">
+
+<unit>
+<expr_stmt><expr><name>a</name></expr>;</expr_stmt><empty_stmt>;</empty_stmt>
+</unit>
+
+<unit>
+<expr_stmt><expr><name>b</name></expr>;</expr_stmt><empty_stmt>;</empty_stmt>
+</unit>
+
+</unit>
