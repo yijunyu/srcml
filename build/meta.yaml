@@ -1,0 +1,23 @@
+package:
+  name: srcml
+  version: "0.9.5"
+
+source:
+  git_url: "https://github.com/yijunyu/srcml"
+  git_rev: "v0.9.5-conda"
+
+requirements:
+  host:
+    - antlr
+    - cmake
+    - libxml2
+  run:
+
+test:
+  imports:
+    -
+
+about:
+  home: "https://github.com/yijunyu/srcml"
+  license: "GNU GENERAL PUBLIC LICENSE"
+  license_file: srcML-src/COPYING.txt
