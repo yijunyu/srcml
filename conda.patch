@@ -1,0 +1,254 @@
+diff --git a/fast.yml b/fast.yml
+new file mode 100644
+index 0000000..681a186
+--- /dev/null
++++ b/fast.yml
+@@ -0,0 +1,76 @@
++name: fast
++channels:
++  - eumetsat
++  - nlesc
++  - psi4
++  - conda-forge
++  - defaults
++dependencies:
++  - bzip2=1.0.6=h470a237_2
++  - ca-certificates=2018.11.29=ha4d7672_0
++  - certifi=2018.11.29=py37_1000
++  - curl=7.63.0=h74213dd_0
++  - expat=2.2.5=hfc679d8_2
++  - flatbuffers=1.10.0=hfc679d8_0
++  - gmp=6.1.2=hfc679d8_0
++  - icu=58.2=hfc679d8_0
++  - isl=0.20=h16a7912_1
++  - krb5=1.16.2=hbb41f41_0
++  - libarchive=3.3.3=h823be47_0
++  - libcurl=7.63.0=hbdb9355_0
++  - libedit=3.1.20170329=haf1bffa_1
++  - libffi=3.2.1=hfc679d8_5
++  - libgcc-ng=7.2.0=hdf63c60_3
++  - libgit2=0.27.7=h5ee2e84_0
++  - libiconv=1.15=h470a237_3
++  - libprotobuf=3.6.1=hd28b015_0
++  - libssh2=1.8.0=h5b517e9_3
++  - libstdcxx-ng=7.2.0=hdf63c60_3
++  - libuuid=2.32.1=h470a237_2
++  - libxml2=2.9.8=h422b904_5
++  - libxslt=1.1.32=h88dbc4e_2
++  - llvm-meta=7.0.0=0
++  - llvmdev=7.0.0=h2d50403_0
++  - make=4.2.1=h470a237_1002
++  - mpc=1.1.0=hb705a9b_6
++  - mpfr=4.0.1=h16a7912_0
++  - ncurses=6.1=hfc679d8_2
++  - openjdk=11.0.1=h470a237_14
++  - openssl=1.0.2p=h470a237_1
++  - parallel=20181022=0
++  - perl=5.26.2=h470a237_0
++  - pip=18.1=py37_1000
++  - pkg-config=0.29.2=h470a237_3
++  - protobuf=3.6.1=py37hfc679d8_1
++  - python=3.7.1=h5001a0f_0
++  - readline=7.0=haf1bffa_1
++  - setuptools=40.6.3=py37_0
++  - six=1.12.0=py37_1000
++  - sqlite=3.26.0=hb1c47c0_0
++  - tk=8.6.9=ha92aebf_0
++  - wheel=0.32.3=py37_0
++  - xz=5.2.4=h470a237_1
++  - zlib=1.2.11=h470a237_3
++  - cloog=0.18.0=0
++  - antlr=2.7.7=9
++  - gcc=4.8.2=25
++  - glibc=2.12.2=3
++  - linux-headers=2.6.32=1
++  - boost=1.57.0=0
++  - pip:
++    - beautifulsoup4==4.6.3
++    - bs4==0.0.1
++    - flatast==0.0.8.post7
++    - ggnn==0.0.2
++    - lxml==4.2.5
++    - numpy==1.15.4
++    - pyarrow==0.11.1
++    - scikit-learn==0.20.2
++    - scipy==1.2.0
++    - sklearn==0.0
++    - tensorboardx==1.5
++    - torch==1.0.0
++    - tqdm==4.28.1
++    - urllib3==1.24.1
++prefix: /u/yijun/anaconda3/envs/fast
++
+diff --git a/srcML-src/CMake/config.cmake b/srcML-src/CMake/config.cmake
+index 28f8047..defc342 100644
+--- a/srcML-src/CMake/config.cmake
++++ b/srcML-src/CMake/config.cmake
+@@ -119,16 +119,16 @@ endif()
+ find_library(ANTLR_LIBRARY NAMES libantlr-pic.a libantlr.a libantlr2-0.dll antlr.lib PATHS /usr/lib /usr/local/lib ${WINDOWS_DEP_PATH}/lib)
+ 
+ if(DYNAMIC_LOAD_ENABLED)
+-    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} dl crypto pthread
++    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} dl crypto pthread
+                 CACHE INTERNAL "Libraries needed to build libsrcml")
+ elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" AND NOT WIN32)
+-    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} crypto pthread
++    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} crypto pthread
+                 CACHE INTERNAL "Libraries needed to build libsrcml")
+ elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+-    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} crypto pthread
++    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} crypto pthread
+                 CACHE INTERNAL "Libraries needed to build libsrcml")
+ else()
+-    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} ${Boost_LIBRARIES} ${ANTLR_LIBRARY}
++    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY}
+                 CACHE INTERNAL "Libraries needed to build libsrcml")
+ endif()
+ 
+@@ -138,14 +138,13 @@ list(APPEND LIBSRCML_LIBRARIES rt)
+ endif()
+ 
+ if(NOT WIN32)
+-    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} crypto pthread CACHE INTERNAL "Libraries needed to build srcml")
++    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${CURL_LIBRARIES} crypto pthread CACHE INTERNAL "Libraries needed to build srcml")
+ elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+-    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} ws2_32 crypto CACHE INTERNAL "Libraries needed to build srcml")
++    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${CURL_LIBRARIES} ws2_32 crypto CACHE INTERNAL "Libraries needed to build srcml")
+ else()
+-    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} ws2_32 ${LIBSRCML_LIBRARIES} CACHE INTERNAL "Libraries needed to build srcml")
++    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${CURL_LIBRARIES} ws2_32 ${LIBSRCML_LIBRARIES} CACHE INTERNAL "Libraries needed to build srcml")
+ endif()
+ 
+-
+ # Finding antlr library.
+ find_program(ANTLR_EXE NAMES antlr runantlr cantlr antlr2 antlr.bat PATHS /usr/bin /opt/local/bin /usr/local/bin C:/antlr/277/bin)
+ 
+@@ -160,12 +159,12 @@ find_package(PythonInterp REQUIRED)
+ # Enforcing that the version of python being used must have a major version of 2.
+ # and the minor version be greater than version 6 (this means version 2.7 of python 
+ # version 2 or newer).
+-if(NOT ${PYTHON_VERSION_MAJOR} EQUAL "2")
+-    message(FATAL_ERROR "Version of python found is not 2.X.X")
+-    if(${PYTHON_VERSION_MINOR} LESS EQUAL 6)
+-        message(FATAL_ERROR "Version of python found is not 2.6.X")
+-    endif()
+-endif()
++#if(NOT ${PYTHON_VERSION_MAJOR} EQUAL "2")
++#    message(FATAL_ERROR "Version of python found is not 2.X.X")
++#    if(${PYTHON_VERSION_MINOR} LESS EQUAL 6)
++#        message(FATAL_ERROR "Version of python found is not 2.6.X")
++#    endif()
++#endif()
+ 
+ if(EXISTS ${Boost_INCLUDE_DIR}/boost/mpl/vector/vector150_c.hpp)
+     add_definitions(-DSRCML_BOOST_MPL_LARGE)
+diff --git a/srcML-src/CMake/install.cmake b/srcML-src/CMake/install.cmake
+index de30cb0..a7b88b3 100644
+--- a/srcML-src/CMake/install.cmake
++++ b/srcML-src/CMake/install.cmake
+@@ -19,7 +19,7 @@
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ 
+ if(NOT WIN32)
+-    set(CMAKE_INSTALL_PREFIX "/usr/local")
++    set(CMAKE_INSTALL_PREFIX "/usr")
+ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+     # file(GLOB SRCML_DLLS ${CMAKE_SOURCE_DIR}/dlls/*)
+     file(GLOB SRCML_DLLS ${CMAKE_SOURCE_DIR}/dep/bin/*.dll)
+diff --git a/srcML-src/src/libsrcml/srcml_reader_handler.hpp b/srcML-src/src/libsrcml/srcml_reader_handler.hpp
+index 0b23fed..c7116f7 100644
+--- a/srcML-src/src/libsrcml/srcml_reader_handler.hpp
++++ b/srcML-src/src/libsrcml/srcml_reader_handler.hpp
+@@ -456,7 +456,7 @@ public :
+ 
+             if(uri == SRCML_CPP_NS_URI) {
+ 
+-                if(archive->language != 0) {
++                if(archive->language) {
+ 
+                     if(*archive->language == "C++" || *archive->language == "C" || *archive->language == "Objective-C")
+                         archive->options |= SRCML_OPTION_CPP | SRCML_OPTION_CPP_NOMACRO;
+diff --git a/srcML-src/src/parser/KeywordLexer.g b/srcML-src/src/parser/KeywordLexer.g
+index 1c85ea0..02ec1eb 100644
+--- a/srcML-src/src/parser/KeywordLexer.g
++++ b/srcML-src/src/parser/KeywordLexer.g
+@@ -513,8 +513,8 @@ KeywordLexer(UTF8CharBuffer* pinput, int language, OPTION_TYPE & options,
+         { "&amp;&amp;"   , RVALUEREF     , LANGUAGE_CXX_FAMILY }, 
+ 
+         // special C++ constant values
+-        { "false"        , FALSE         , LANGUAGE_OO }, 
+-        { "true"         , TRUE          , LANGUAGE_OO }, 
++        // { "false"        , XXFALSE         , LANGUAGE_OO }, 
++        // { "true"         , XXTRUE          , LANGUAGE_OO }, 
+ 
+         // C++ specifiers
+         { "final"         , FINAL          , LANGUAGE_CXX },
+@@ -647,12 +647,12 @@ KeywordLexer(UTF8CharBuffer* pinput, int language, OPTION_TYPE & options,
+         { "@synthesize"          , SYNTHESIZE          , LANGUAGE_OBJECTIVE_C },
+         { "@dynamic"             , DYNAMIC             , LANGUAGE_OBJECTIVE_C },
+         { "in"                   , IN                  , LANGUAGE_OBJECTIVE_C },
+-        { "@YES"                 , TRUE                , LANGUAGE_OBJECTIVE_C },
+-        { "@NO"                  , FALSE               , LANGUAGE_OBJECTIVE_C },
+-        { "YES"                  , TRUE                , LANGUAGE_OBJECTIVE_C },
+-        { "NO"                   , FALSE               , LANGUAGE_OBJECTIVE_C },
+-        { "@true"                , TRUE                , LANGUAGE_OBJECTIVE_C },
+-        { "@false"               , FALSE               , LANGUAGE_OBJECTIVE_C },
++        { "@YES"                 , XTRUE                , LANGUAGE_OBJECTIVE_C },
++        { "@NO"                  , XFALSE               , LANGUAGE_OBJECTIVE_C },
++        { "YES"                  , XTRUE                , LANGUAGE_OBJECTIVE_C },
++        { "NO"                   , XFALSE               , LANGUAGE_OBJECTIVE_C },
++        { "@true"                , XTRUE                , LANGUAGE_OBJECTIVE_C },
++        { "@false"               , XFALSE               , LANGUAGE_OBJECTIVE_C },
+         { "@encode"              , ENCODE              , LANGUAGE_OBJECTIVE_C },
+         { "@selector"            , SELECTOR            , LANGUAGE_OBJECTIVE_C },
+         { "@autoreleasepool"     , AUTORELEASEPOOL     , LANGUAGE_OBJECTIVE_C },
+diff --git a/srcML-src/src/parser/OperatorLexer.g b/srcML-src/src/parser/OperatorLexer.g
+index 8aacd28..702261a 100644
+--- a/srcML-src/src/parser/OperatorLexer.g
++++ b/srcML-src/src/parser/OperatorLexer.g
+@@ -91,8 +91,8 @@ MSPEC;
+ BLOCKOP;
+ 
+ // literals
+-FALSE;
+-TRUE;
++XFALSE;
++XTRUE;
+ 
+ // Other
+ CUDA;
+diff --git a/srcML-src/src/parser/srcMLParser.g b/srcML-src/src/parser/srcMLParser.g
+index f5ad65c..34eb318 100644
+--- a/srcML-src/src/parser/srcMLParser.g
++++ b/srcML-src/src/parser/srcMLParser.g
+@@ -5262,7 +5262,7 @@ identifier_list[] { ENTRY_DEBUG } :
+             // C
+             CRESTRICT | MUTABLE | CXX_TRY | CXX_CATCH/*| CXX_CLASS| THROW | CLASS | PUBLIC | PRIVATE | PROTECTED | NEW |
+             SIGNAL | FOREACH | FOREVER | VIRTUAL | FRIEND | OPERATOR | EXPLICIT | NAMESPACE | USING |
+-            DELETE | FALSE | TRUE | FINAL | OVERRIDE | CONSTEXPR | NOEXCEPT | THREADLOCAL | NULLPTR |
++            DELETE | XFALSE | XTRUE | FINAL | OVERRIDE | CONSTEXPR | NOEXCEPT | THREADLOCAL | NULLPTR |
+             DECLTYPE | ALIGNAS | TYPENAME | ALIGNOF*/
+ 
+ ;
+@@ -7931,7 +7931,7 @@ boolean[] { LightweightElement element(this); ENTRY_DEBUG } :
+             if (!isoption(parser_options, SRCML_OPTION_OPTIONAL_MARKUP) || isoption(parser_options, SRCML_OPTION_LITERAL))
+                 startElement(SBOOLEAN);
+         }
+-        (TRUE | FALSE)
++        (XXTRUE | XXFALSE)
+ ;
+ 
+ // a derived class
+diff --git a/srcML-src/src/parser/srcml_bitset_token_sets.hpp b/srcML-src/src/parser/srcml_bitset_token_sets.hpp
+index 87e2d19..22a88c0 100644
+--- a/srcML-src/src/parser/srcml_bitset_token_sets.hpp
++++ b/srcML-src/src/parser/srcml_bitset_token_sets.hpp
+@@ -118,7 +118,7 @@ create_token_set(enum_preprocessing_tokens, srcMLParser::EXTERN, srcMLParser::RE
+ 
+ const antlr::BitSet srcMLParser::enum_preprocessing_token_set(bitset_buckets<enum_preprocessing_tokens>::data, bitset_buckets<enum_preprocessing_tokens>::num_token_longs);
+ 
+-create_token_set(literal_tokens, srcMLParser::CHAR_START, srcMLParser::COMPLEX_NUMBER, srcMLParser::STRING_START, srcMLParser::CONSTANTS, srcMLParser::FALSE, srcMLParser::TRUE, srcMLParser::NULLPTR,
++create_token_set(literal_tokens, srcMLParser::CHAR_START, srcMLParser::COMPLEX_NUMBER, srcMLParser::STRING_START, srcMLParser::CONSTANTS, srcMLParser::XXFALSE, srcMLParser::XXTRUE, srcMLParser::NULLPTR,
+                                  srcMLParser::NULLLITERAL, srcMLParser::NIL);
+ 
+ const antlr::BitSet srcMLParser::literal_tokens_set(bitset_buckets<literal_tokens>::data, bitset_buckets<literal_tokens>::num_token_longs);
