@@ -6,11 +6,19 @@ source:
   git_url: "https://github.com/yijunyu/srcml"
   git_rev: "conda"
 
+extra:
+  channels:
+    - eumetsat
+    - conda-forge
+
 requirements:
   host:
-    - antlr
     - cmake
     - libxml2
+    - libarchive
+    - boost
+    - antlr {{ antlr }}
+    - libxslt
   run:
 
 test:
