@@ -91,8 +91,8 @@ MSPEC;
 BLOCKOP;
 
 // literals
-FALSE;
-TRUE;
+XFALSE;
+XTRUE;
 
 // Other
 CUDA;
