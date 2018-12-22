@@ -36,7 +36,7 @@ add_library(srcsax OBJECT ${SRCSAX_SOURCE} ${SRCSAX_HEADERS})
 # 
 macro(buildLib LIB_NAME LIB_TYPE)
 
-    add_library(${LIB_NAME} ${LIB_TYPE} $<TARGET_OBJECTS:parser> $<TARGET_OBJECTS:libsrcml> $<TARGET_OBJECTS:srcsax> build_hack.cpp)
+    add_library(${LIB_NAME} ${LIB_TYPE} $<TARGET_OBJECTS:parser> $<TARGET_OBJECTS:libsrcml> $<TARGET_OBJECTS:srcsax>)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set_target_properties(${LIB_NAME} PROPERTIES OUTPUT_NAME libsrcml LINK_FLAGS_DEBUG "/SAFESEH:NO")
@@ -68,6 +68,6 @@ if(OS_NAME STREQUAL "Fedora" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
 elseif(OS_NAME STREQUAL "openSUSE" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
 	install(TARGETS srcml_shared srcml_static RUNTIME DESTINATION bin LIBRARY DESTINATION lib64 ARCHIVE DESTINATION lib64)
 else()
-	install(TARGETS srcml_shared srcml_static RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+	install(TARGETS srcml_shared srcml_static RUNTIME DESTINATION /usr/local/Cellar/srcml/0.9.5/bin LIBRARY DESTINATION /usr/local/Cellar/srcml/0.9.5/lib ARCHIVE DESTINATION /usr/local/Cellar/srcml/0.9.5/lib)
 endif()
 

@@ -23,4 +23,4 @@ file(GLOB LIBSRCML_SOURCE *.cpp)
 add_library(libsrcml OBJECT ${LIBSRCML_HEADERS} ${LIBSRCML_SOURCE})
 add_dependencies(libsrcml parser)
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/srcml.h DESTINATION include)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/srcml.h DESTINATION /usr/local/Cellar/srcml/0.9.5/include)

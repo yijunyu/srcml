@@ -24,14 +24,14 @@ project(srcML)
 
 enable_testing()
 
+set(CMAKE_MACOSX_RPATH 1)
+
 # Setting up Project includes.
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 include (srcml)
 
-set(CMAKE_MACOSX_RPATH 1)
-
 # Setting up source include directories.
-include_directories(BEFORE src/srcml src/libsrcml src/parser src/srcSAX)
+include_directories(BEFORE /usr/local/include /usr/local/opt/libxml2/include/libxml2 src/srcml src/libsrcml src/parser src/srcSAX)
 
 # Setting major and minor version numbers (TODO fix this so that it is set using something
 # more correct that being input from within the build system).

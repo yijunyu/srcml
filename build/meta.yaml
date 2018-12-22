@@ -4,7 +4,7 @@ package:
 
 source:
   git_url: "https://github.com/yijunyu/srcml"
-  git_rev: "conda"
+  git_rev: "conda-osx"
 
 extra:
   channels:

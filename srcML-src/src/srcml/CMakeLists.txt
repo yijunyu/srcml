@@ -30,4 +30,4 @@ elseif(NOT WIN32)
     install(CODE "execute_process(COMMAND \"/usr/bin/strip\" \"${CMAKE_BINARY_DIR}/bin/srcml\")")
 endif()
 
-install(TARGETS srcml RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+install(TARGETS srcml RUNTIME DESTINATION /usr/local/Cellar/srcml/0.9.5/bin LIBRARY DESTINATION /usr/local/Cellar/srcml/0.9.5/lib ARCHIVE DESTINATION /usr/local/Cellar/srcml/0.9.5/lib)
