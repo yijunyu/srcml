@@ -19,6 +19,8 @@ requirements:
     - boost
     - antlr {{ antlr }}
     - libxslt
+    - openssl
+    - clang
   run:
     - python
 
