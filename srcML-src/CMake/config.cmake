@@ -119,8 +119,7 @@ endif()
 find_library(ANTLR_LIBRARY NAMES libantlr-pic.a libantlr.a libantlr2-0.dll antlr.lib PATHS /usr/lib /usr/local/lib ${WINDOWS_DEP_PATH}/lib)
 
 if(DYNAMIC_LOAD_ENABLED)
-#    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} dl crypto pthread
-    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} dl pthread
+    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} dl crypto pthread
                 CACHE INTERNAL "Libraries needed to build libsrcml")
 elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" AND NOT WIN32)
     set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} crypto pthread
