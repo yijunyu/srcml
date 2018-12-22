@@ -21,6 +21,7 @@ requirements:
     - libxslt
     - openssl
     - clang
+    - ninja
   run:
     - python
 
