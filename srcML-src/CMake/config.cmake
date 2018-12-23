@@ -43,14 +43,14 @@ endif()
 set(OS_NAME ${OS_NAME} CACHE INTERNAL "Detected OS name")
 
 # Dynamic Load libraries (Unix only)
-#if(NOT WIN32)
-#	option(DYNAMIC_LOAD_ENABLED "Dynamically load some libraries such as libxslt and libexslt" ON)
-#endif()
+if(NOT WIN32)
+	#option(DYNAMIC_LOAD_ENABLED "Dynamically load some libraries such as libxslt and libexslt" ON)
+    option(DYNAMIC_LOAD_ENABLED "Dynamically load some libraries such as libxslt and libexslt" OFF)
+endif()
 
-#if(NOT DYNAMIC_LOAD_ENABLED)
-add_definitions(-DNO_DLLOAD)
-#    add_definitions(-DNO_DLLOAD)
-#endif()
+if(NOT DYNAMIC_LOAD_ENABLED)
+    add_definitions(-DNO_DLLOAD)
+endif()
 
 option(RUN_TIMING_TESTS "Run timing tests with ctest" OFF)
 option(BUILD_UNIT_TESTS "Build unit tests for srcML/libsrcml" OFF)
@@ -124,12 +124,10 @@ if(DYNAMIC_LOAD_ENABLED)
     set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} dl crypto pthread
                 CACHE INTERNAL "Libraries needed to build libsrcml")
 elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" AND NOT WIN32)
-#    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} crypto pthread
-	set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} pthread
+    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} crypto pthread
                 CACHE INTERNAL "Libraries needed to build libsrcml")
 elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-#    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} crypto pthread
-	set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} pthread
+    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} crypto pthread
                 CACHE INTERNAL "Libraries needed to build libsrcml")
 else()
     set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} ${Boost_LIBRARIES} ${ANTLR_LIBRARY}
