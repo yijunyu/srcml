@@ -44,8 +44,7 @@ set(OS_NAME ${OS_NAME} CACHE INTERNAL "Detected OS name")
 
 # Dynamic Load libraries (Unix only)
 if(NOT WIN32)
-	#option(DYNAMIC_LOAD_ENABLED "Dynamically load some libraries such as libxslt and libexslt" ON)
-    option(DYNAMIC_LOAD_ENABLED "Dynamically load some libraries such as libxslt and libexslt" OFF)
+	option(DYNAMIC_LOAD_ENABLED "Dynamically load some libraries such as libxslt and libexslt" ON)
 endif()
 
 if(NOT DYNAMIC_LOAD_ENABLED)
@@ -90,11 +89,9 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 else()
 
     set(WINDOWS_DEP_PATH "")
-
-    include_directories(${LibArchive_INCLUDE_DIRS} ${LIBXML2_INCLUDE_DIR} ${CURL_INCLUDE_DIRS} ${Boost_INCLUDE_DIR})
-    
     # Locating packages.
     find_package(LibArchive REQUIRED)
+    include_directories(${LibArchive_INCLUDE_DIRS} ${LIBXML2_INCLUDE_DIR} ${CURL_INCLUDE_DIRS} ${Boost_INCLUDE_DIR})
     find_package(LibXml2 REQUIRED)
     find_package(CURL REQUIRED)
     set(Boost_NO_BOOST_CMAKE ON)
@@ -110,24 +107,29 @@ else()
     endif()
 
     if(LIBXSLT_FOUND)
-        include_directories(${LIBXSLT_INCLUDE_DIR})
+        include_directories(APPEND ${LIBXSLT_INCLUDE_DIR})
         add_definitions(-DWITH_LIBXSLT)
     endif()
 
 
 endif()
 
+find_package(LibArchive REQUIRED)
+
 # Locating the antlr library.
 find_library(ANTLR_LIBRARY NAMES libantlr-pic.a libantlr.a libantlr2-0.dll libantlr3c.a antlr.lib PATHS /usr/lib /usr/local/lib ${WINDOWS_DEP_PATH}/lib)
 
+find_package(OpenSSL REQUIRED)
+
 if(DYNAMIC_LOAD_ENABLED)
-    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} dl crypto pthread
+	set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${OPENSSL_LIBRARIES} dl pthread
                 CACHE INTERNAL "Libraries needed to build libsrcml")
 elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" AND NOT WIN32)
-    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} crypto pthread
+	#set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} crypto pthread
+	set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} ${OPENSSL_CRYPTO_LIBRARY} pthread
                 CACHE INTERNAL "Libraries needed to build libsrcml")
 elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} crypto pthread
+    set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} ${ANTLR_LIBRARY} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} pthread
                 CACHE INTERNAL "Libraries needed to build libsrcml")
 else()
     set(LIBSRCML_LIBRARIES ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBXSLT_EXSLT_LIBRARY} ${Boost_LIBRARIES} ${ANTLR_LIBRARY}
@@ -139,15 +141,17 @@ if(NOT WIN32 AND NOT APPLE)
 list(APPEND LIBSRCML_LIBRARIES rt)
 endif()
 
-if(NOT WIN32)
-#    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} crypto pthread CACHE INTERNAL "Libraries needed to build srcml")
+#message(WARNING, "${LibArchive_LIBRARIES}")
+string(REPLACE "libcrypto" "libarchive" path "${OPENSSL_CRYPTO_LIBRARY}")
+set(LibArchive_LIBRARIES "${path}")
+#message(WARNING, "++++++++++ ${LibArchive_LIBRARIES}")
 
-    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} pthread CACHE INTERNAL "Libraries needed to build srcml")
+if(NOT WIN32)
+    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} ${OPENSSL_CRYPTO_LIBRARY} pthread CACHE INTERNAL "Libraries needed to build srcml")
 elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-#    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} ws2_32 crypto CACHE INTERNAL "Libraries needed to build srcml")
-    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} ws2_32 CACHE INTERNAL "Libraries needed to build srcml")
+    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} ${OPENSSL_CRYPTO_LIBRARY} ws2_32 CACHE INTERNAL "Libraries needed to build srcml")
 else()
-    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} ws2_32 ${LIBSRCML_LIBRARIES} CACHE INTERNAL "Libraries needed to build srcml")
+    set(SRCML_LIBRARIES ${LibArchive_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} ${OPENSSL_CRYPTO_LIBRARY} ws2_32 ${LIBSRCML_LIBRARIES} CACHE INTERNAL "Libraries needed to build srcml")
 endif()
 
 

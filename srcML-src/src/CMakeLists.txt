@@ -41,14 +41,13 @@ macro(buildLib LIB_NAME LIB_TYPE)
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set_target_properties(${LIB_NAME} PROPERTIES OUTPUT_NAME libsrcml LINK_FLAGS_DEBUG "/SAFESEH:NO")
 elseif(APPLE)
-    set_target_properties(${LIB_NAME} PROPERTIES OUTPUT_NAME srcml LINK_FLAGS "-Wl,-exported_symbols_list ${CMAKE_SOURCE_DIR}/CMake/export_list" MACOSX_RPATH OFF)
+    set_target_properties(${LIB_NAME} PROPERTIES OUTPUT_NAME srcml LINK_FLAGS "-Wl,-exported_symbols_list ${CMAKE_SOURCE_DIR}/CMake/export_list" MACOSX_RPATH ON)
 else()
     set_target_properties(${LIB_NAME} PROPERTIES OUTPUT_NAME srcml)
 
 endif()
 
-#target_link_libraries(${LIB_NAME} PRIVATE ${LIBSRCML_LIBRARIES})
-    target_link_libraries(${LIB_NAME} PRIVATE ${SRCML_LIBRARIES})
+target_link_libraries(${LIB_NAME} PRIVATE ${LIBSRCML_LIBRARIES})
 endmacro()
 
 # Building static and dynamic libraries for srcML.
@@ -60,15 +59,16 @@ set_target_properties(srcml_shared PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_B
 
 if(APPLE)
     install(CODE "execute_process(COMMAND \"/usr/bin/strip\"  \"-x\" \"${CMAKE_BINARY_DIR}/bin/libsrcml.dylib\")")
+
 elseif(NOT ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC") AND NOT WIN32)
     install(CODE "execute_process(COMMAND \"/usr/bin/strip\"  \"-x\" \"${CMAKE_BINARY_DIR}/bin/libsrcml.so\")")
 endif()
 
 if(OS_NAME STREQUAL "Fedora" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
-	install(TARGETS srcml_shared srcml_static RUNTIME DESTINATION bin LIBRARY DESTINATION lib64 ARCHIVE DESTINATION lib64)
+		install(TARGETS srcml_shared srcml_static RUNTIME DESTINATION bin LIBRARY DESTINATION lib64 ARCHIVE DESTINATION lib64)
 elseif(OS_NAME STREQUAL "openSUSE" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
 	install(TARGETS srcml_shared srcml_static RUNTIME DESTINATION bin LIBRARY DESTINATION lib64 ARCHIVE DESTINATION lib64)
 else()
-	install(TARGETS srcml_shared srcml_static RUNTIME DESTINATION /usr/local/Cellar/srcml/0.9.5/bin LIBRARY DESTINATION /usr/local/Cellar/srcml/0.9.5/lib ARCHIVE DESTINATION /usr/local/Cellar/srcml/0.9.5/lib)
+	install(TARGETS srcml_shared srcml_static RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 endif()
 
