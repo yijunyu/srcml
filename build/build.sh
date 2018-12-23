@@ -4,4 +4,4 @@ cp antlr.jar $PREFIX/lib/antlr.jar
 cmake -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC_DIR srcML-src
 make
 cp bin/srcml $PREFIX/bin/
-cp lib/libsrcml* $PREFIX/lib/
+cp bin/libsrcml* $PREFIX/lib/
