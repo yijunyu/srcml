@@ -7931,7 +7931,7 @@ boolean[] { LightweightElement element(this); ENTRY_DEBUG } :
             if (!isoption(parser_options, SRCML_OPTION_OPTIONAL_MARKUP) || isoption(parser_options, SRCML_OPTION_LITERAL))
                 startElement(SBOOLEAN);
         }
-        (XXTRUE | XXFALSE)
+        (XTRUE | XFALSE)
 ;
 
 // a derived class
