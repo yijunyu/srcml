@@ -513,8 +513,8 @@ KeywordLexer(UTF8CharBuffer* pinput, int language, OPTION_TYPE & options,
         { "&amp;&amp;"   , RVALUEREF     , LANGUAGE_CXX_FAMILY }, 
 
         // special C++ constant values
-        { "false"        , XFALSE         , LANGUAGE_OO }, 
-        { "true"         , XTRUE          , LANGUAGE_OO }, 
+        { "false"        , XXFALSE         , LANGUAGE_OO }, 
+        { "true"         , XXTRUE          , LANGUAGE_OO }, 
 
         // C++ specifiers
         { "final"         , FINAL          , LANGUAGE_CXX },
