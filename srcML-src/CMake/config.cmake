@@ -47,9 +47,10 @@ set(OS_NAME ${OS_NAME} CACHE INTERNAL "Detected OS name")
 #	option(DYNAMIC_LOAD_ENABLED "Dynamically load some libraries such as libxslt and libexslt" ON)
 #endif()
 
-if(NOT DYNAMIC_LOAD_ENABLED)
-    add_definitions(-DNO_DLLOAD)
-endif()
+#if(NOT DYNAMIC_LOAD_ENABLED)
+add_definitions(-DNO_DLLOAD)
+#    add_definitions(-DNO_DLLOAD)
+#endif()
 
 option(RUN_TIMING_TESTS "Run timing tests with ctest" OFF)
 option(BUILD_UNIT_TESTS "Build unit tests for srcML/libsrcml" OFF)
