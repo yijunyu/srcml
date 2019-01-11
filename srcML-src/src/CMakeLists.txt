@@ -42,12 +42,11 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set_target_properties(${LIB_NAME} PROPERTIES OUTPUT_NAME libsrcml LINK_FLAGS_DEBUG "/SAFESEH:NO")
 elseif(APPLE)
     set_target_properties(${LIB_NAME} PROPERTIES OUTPUT_NAME srcml LINK_FLAGS "-Wl,-exported_symbols_list ${CMAKE_SOURCE_DIR}/CMake/export_list" MACOSX_RPATH OFF)
-else()
-    set_target_properties(${LIB_NAME} PROPERTIES OUTPUT_NAME srcml)
-
+#else()
+#    set_target_properties(${LIB_NAME} PROPERTIES OUTPUT_NAME srcml)
 endif()
 
-    target_link_libraries(${LIB_NAME} PRIVATE ${LIBSRCML_LIBRARIES})
+#    target_link_libraries(${LIB_NAME} PRIVATE ${LIBSRCML_LIBRARIES})
 endmacro()
 
 # Building static and dynamic libraries for srcML.
@@ -56,8 +55,8 @@ set_target_properties(srcml_static PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_B
 
 if(APPLE)
     install(CODE "execute_process(COMMAND \"/usr/bin/strip\"  \"-x\" \"${CMAKE_BINARY_DIR}/bin/libsrcml.dylib\")")
-elseif(NOT ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC") AND NOT WIN32)
-    install(CODE "execute_process(COMMAND \"/usr/bin/strip\"  \"-x\" \"${CMAKE_BINARY_DIR}/bin/libsrcml.so\")")
+#elseif(NOT ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC") AND NOT WIN32)
+#    install(CODE "execute_process(COMMAND \"/usr/bin/strip\"  \"-x\" \"${CMAKE_BINARY_DIR}/bin/libsrcml.so\")")
 endif()
 
 if(OS_NAME STREQUAL "Fedora" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
