@@ -47,15 +47,15 @@ else()
 
 endif()
 
-    target_link_libraries(${LIB_NAME} PRIVATE ${LIBSRCML_LIBRARIES})
+    target_link_libraries(${LIB_NAME} -static PRIVATE ${LIBSRCML_LIBRARIES})
 endmacro()
 
 # Building static and dynamic libraries for srcML.
 buildLib(srcml_static STATIC)
 set_target_properties(srcml_static PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-buildLib(srcml_shared SHARED)
-set_target_properties(srcml_shared PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+#buildLib(srcml_shared SHARED)
+#set_target_properties(srcml_shared PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 if(APPLE)
     install(CODE "execute_process(COMMAND \"/usr/bin/strip\"  \"-x\" \"${CMAKE_BINARY_DIR}/bin/libsrcml.dylib\")")

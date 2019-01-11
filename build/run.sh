@@ -1,1 +1,1 @@
-conda build . --no-test
+conda build -c eumetsat -c conda-forge . --no-test

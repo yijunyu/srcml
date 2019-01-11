@@ -15,12 +15,12 @@ requirements:
   host:
     - cmake
     - libxml2
+    - openssl
     - libarchive
     - boost
     - antlr {{ antlr }}
     - libxslt
-    - openssl
-    - clang
+    - clang [osx]
     - ninja
   run:
     - python
