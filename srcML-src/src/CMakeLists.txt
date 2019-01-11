@@ -47,7 +47,7 @@ else()
 
 endif()
 
-    target_link_libraries(${LIB_NAME} -static PRIVATE ${LIBSRCML_LIBRARIES})
+    target_link_libraries(${LIB_NAME} PRIVATE ${LIBSRCML_LIBRARIES})
 endmacro()
 
 # Building static and dynamic libraries for srcML.
